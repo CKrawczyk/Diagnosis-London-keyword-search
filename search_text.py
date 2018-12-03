@@ -9,7 +9,7 @@ with open('index_normalized.json') as file:
     index_normalized = json.load(file)
 
 
-def search_and(*words, pattern=False):
+def search_and(*words):
     '''Find pages that contain *all* words passed into the function'''
     results = [Counter(index_normalized[w]) if w in index_normalized else Counter() for w in words]
     if len(results) == 0:
@@ -24,8 +24,8 @@ def search_and(*words, pattern=False):
     return result
 
 
-def search(*words, max_number=None, pattern=False):
+def search(*words, max_number=None):
     '''Find pages with *any* of the words/phrases passed in'''
-    results = [search_and(*kw.clean_search_word(word, deaccent=True), pattern=pattern) for word in words]
+    results = [search_and(*kw.clean_search_word(word, deaccent=True)) for word in words]
     result = sum(results, Counter())
     return result.most_common(max_number)
